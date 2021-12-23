@@ -41,6 +41,8 @@ namespace BLL.Services
             }
 
             double rightAnswersPercents = CountPercents(answearsList, rightAnswears);
+
+            return new ReadUserTestDto { Passed = true, RightAnswerPercents = 80.0 };
         }
 
         private double CountPercents(List<string> allAnswears, int rightAnswears)
