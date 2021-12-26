@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs.TestServiceDTOs;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,10 +31,10 @@ namespace KnowledgeTest.Controllers
             return Ok(_testService.SendTestQuestions(id));
         }
 
-        [HttpPost("finishtest")]
-        public IActionResult FinishTest(string[] answers)
+        [HttpPost("finishtest/{id}")]
+        public async Task<IActionResult> FinishTest(ReceiveAnswersDto answersDtos, int id)
         {
-            return Ok();
+            return Ok(await _testService.CheckUserAnswers(answersDtos, id));
         }
     }
 }

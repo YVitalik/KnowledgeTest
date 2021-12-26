@@ -19,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace KnowledgeTest
 {
@@ -33,12 +34,15 @@ namespace KnowledgeTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITestDetailRepository, TestDetailRepository>();
-            services.AddScoped<ITestQuestionRepository, TestQuestionRepository>();
-            services.AddScoped<ITestRepository, TestRepository>();
-            services.AddScoped<IUserTestRepository, UserTestRepository>();
-            services.AddScoped<ITestService, TestService>();
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITestDetailRepository, TestDetailRepository>();
+            services.AddTransient<ITestQuestionRepository, TestQuestionRepository>();
+            services.AddTransient<ITestRepository, TestRepository>();
+            services.AddTransient<IUserTestRepository, UserTestRepository>();
+            services.AddTransient<ITestService, TestService>();
+            services.AddTransient<IUserTestService, UserTestService>();
+            services.AddTransient<ISaveUserTestService, SaveUserTestService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<AdministrationDbContext>(options =>

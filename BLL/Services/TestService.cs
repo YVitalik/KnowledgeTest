@@ -65,9 +65,9 @@ namespace BLL.Services
             return questionList;
         }  
         
-        public ReadUserTestDto CheckUserAnswers(string[] answers, int testId)
+        public async Task<ReadUserTestDto> CheckUserAnswers(ReceiveAnswersDto answers, int testId)
         {
-            return _userTestService.CheckUserTest(answers, testId);
+            return await _userTestService.CheckUserTest(answers, testId);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace DAL.Models
         public int Id { get; set; }
         public bool Passed { get; set; }
         public double RightAnswerPercents { get; set; }
+        public string UserId { get; set; }
         public TestDetail TestDetail { get; set; }
     }
 }
