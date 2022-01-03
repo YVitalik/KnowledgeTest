@@ -14,6 +14,7 @@ namespace BLL
         public AutomapperProfile()
         {
             CreateMap<Test, ReadTestDto>();
+            CreateMap<UserTest, ReadUserTestDto>();
         }
     }
 }

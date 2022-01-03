@@ -17,6 +17,7 @@ namespace KnowledgeTest.Controllers
             _testService = testService;
         }
 
+        [AllowAnonymous]
         [HttpGet("find/{testName}")]
         public async Task<IActionResult> FindTestAsync(string testName)
         {
