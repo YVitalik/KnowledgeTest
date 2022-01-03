@@ -10,7 +10,7 @@ namespace DAL.Models
     {
         public int Id { get; set; }
         public int RightAnswears { get; set; }
-        public double PassTime { get; set; }
+        public DateTime? PassTime { get; set; }
         public int UserTestId { get; set; }
         public UserTest UserTest { get; set; }
     }

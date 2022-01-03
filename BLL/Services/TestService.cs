@@ -3,14 +3,8 @@ using BLL.CustomExceptions;
 using BLL.DTOs.TestServiceDTOs;
 using BLL.Interfaces;
 using DAL.Interfaces;
-using DAL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data;
 
 namespace BLL.Services
 {
@@ -19,7 +13,6 @@ namespace BLL.Services
         private readonly IMapper _mapper;
         private readonly ITestRepository _repository;
         private readonly IUserTestService _userTestService;
-
         public TestService(ITestRepository repository, IMapper mapper, IUserTestService userTestService)
         {
             var configuration = new MapperConfiguration(cfg =>
@@ -49,6 +42,7 @@ namespace BLL.Services
                     result.Add(toAdd);
                 }
             }
+            
             return result;
         }
 

@@ -3,6 +3,7 @@ using Administration.Interfaces;
 using Administration.Services;
 using AutoMapper;
 using BLL.Helpers.JwtHelper;
+using BLL.Helpers.UserHelper;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL;
@@ -11,6 +12,7 @@ using DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +44,8 @@ namespace KnowledgeTest
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<ISaveUserTestService, SaveUserTestService>();
+            services.AddTransient<IGetUserInfo, GetUserInfo>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(typeof(Startup));
 

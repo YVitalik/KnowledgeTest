@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class DomainDBInitial : Migration
+    public partial class AddInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,6 +13,7 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TestName = table.Column<string>(nullable: true),
                     TimeInMin = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -26,7 +28,8 @@ namespace DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Passed = table.Column<bool>(nullable: false),
-                    RightAnswerPercents = table.Column<double>(nullable: false)
+                    RightAnswerPercents = table.Column<double>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,7 +64,7 @@ namespace DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RightAnswears = table.Column<int>(nullable: false),
-                    PassTime = table.Column<double>(nullable: false),
+                    PassTime = table.Column<DateTime>(nullable: true),
                     UserTestId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
