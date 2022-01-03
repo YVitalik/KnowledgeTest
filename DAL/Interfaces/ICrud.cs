@@ -8,7 +8,7 @@ namespace DAL.Interfaces
 {
     public interface ICrud<TModel> where TModel : class
     {
-        IQueryable<TModel> GetAll();
+        Task<IEnumerable<TModel>> GetAllAsync();
 
         Task<TModel> GetByIdAsync(int id);
 

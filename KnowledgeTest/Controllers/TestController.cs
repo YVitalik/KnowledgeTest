@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs.TestServiceDTOs;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace KnowledgeTest.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("knowledge/test")]
     public class TestController : ControllerBase
@@ -20,15 +22,15 @@ namespace KnowledgeTest.Controllers
         }
 
         [HttpGet("find/{testName}")]
-        public IActionResult FindTestAsync(string testName)
+        public async Task<IActionResult> FindTestAsync(string testName)
         {
-            return Ok(_testService.FindTestAsync(testName));
+            return Ok(await _testService.FindTestAsync(testName));
         }
 
-        [HttpGet("startest/{id}")]
-        public IActionResult StartTest(int id)
+        [HttpGet("starttest/{id}")]
+        public async Task<IActionResult> StartTest(int id)
         {
-            return Ok(_testService.SendTestQuestions(id));
+            return Ok(await _testService.SendTestQuestions(id));
         }
 
         [HttpPost("finishtest/{id}")]

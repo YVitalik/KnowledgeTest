@@ -29,9 +29,9 @@ namespace DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public IQueryable<UserTest> GetAll()
+        public async Task<IEnumerable<UserTest>> GetAllAsync()
         {
-            return _context.UserTests.AsQueryable();
+            return await _context.UserTests.ToListAsync();
         }
 
         public async Task<UserTest> GetByIdAsync(int id)

@@ -19,7 +19,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace KnowledgeTest
 {
@@ -45,6 +44,7 @@ namespace KnowledgeTest
             services.AddTransient<ISaveUserTestService, SaveUserTestService>();
 
             services.AddAutoMapper(typeof(Startup));
+
             services.AddDbContext<AdministrationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AdministrationDB")));
             services.AddDbContext<DomainDbContext>(options =>
@@ -53,7 +53,7 @@ namespace KnowledgeTest
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 5;
-            }).AddEntityFrameworkStores<AdministrationDbContext>();
+            }).AddEntityFrameworkStores<AdministrationDbContext>().AddDefaultTokenProviders();
 
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
@@ -77,6 +77,7 @@ namespace KnowledgeTest
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -90,8 +91,8 @@ namespace KnowledgeTest
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

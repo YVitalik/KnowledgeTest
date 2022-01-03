@@ -10,8 +10,8 @@ namespace BLL.Interfaces
 {
     public interface ITestService
     {
-        IEnumerable<ReadTestDto> FindTestAsync(string testToFind);
-        List<string> SendTestQuestions(int testId);
+        Task<IEnumerable<ReadTestDto>> FindTestAsync(string testToFind);
+        Task<List<string>> SendTestQuestions(int testId);
         Task<ReadUserTestDto> CheckUserAnswers(ReceiveAnswersDto answers, int testId);
     }
 }

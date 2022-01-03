@@ -1,5 +1,6 @@
 ﻿using DAL.Interfaces;
 using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,9 @@ namespace DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public IQueryable<TestDetail> GetAll()
+        public async Task<IEnumerable<TestDetail>> GetAllAsync()
         {
-            return _context.TestDetails.AsQueryable();
+            return await _context.TestDetails.ToListAsync();
         }
 
         public async Task<TestDetail> GetByIdAsync(int id)

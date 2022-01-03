@@ -1,6 +1,7 @@
 ﻿using Administration.Interfaces;
 using BLL.CustomExceptions;
 using BLL.DTOs.AdministrationDTOs;
+using BLL.Helpers.JwtHelper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -54,7 +55,7 @@ namespace Administration.Services
 
         public async Task<IdentityUser> Login(LoginDto login)
         {
-            var user = _userManager.Users.FirstOrDefault(x => x.Email == login.Username || x.UserName == login.Username);
+            var user = _userManager.Users.FirstOrDefault(x => x.UserName == login.Username);
             if (user is null) throw new UserDoesntExistsException("Username or password is incorrect");
             return await _userManager.CheckPasswordAsync(user, login.Password) ? user : null;
         }
@@ -69,7 +70,7 @@ namespace Administration.Services
 
             if (!result.Succeeded)
             {
-                throw new UsernameAlreadyExistsException("Please choose other username");
+                throw new System.Exception(string.Join(';', result.Errors.Select(x => x.Description)));
             }
         }
     }

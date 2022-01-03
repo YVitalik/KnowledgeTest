@@ -31,14 +31,17 @@ namespace BLL.Services
             _userTestService = userTestService;
         }
         
-        public IEnumerable<ReadTestDto> FindTestAsync(string testToFind)
+        public async Task<IEnumerable<ReadTestDto>> FindTestAsync(string testToFind)
         {
-            if (testToFind is null)
+            if (testToFind is null || testToFind.Length == 0)
             {
                 throw new ThisFieldCanNotBeEmptyException("This field can not be empty, please enter smth here");
             }
+            
             var result = new List<ReadTestDto>();
-            foreach (var test in _repository.GetAll())
+            var testList = await _repository.GetAllAsync();
+            
+            foreach (var test in testList)
             {
                 if (test.TestName.ToUpper().Contains(testToFind.ToUpper()))
                 {
@@ -49,21 +52,10 @@ namespace BLL.Services
             return result;
         }
 
-        public List<string> SendTestQuestions(int testId)
+        public async Task<List<string>> SendTestQuestions(int testId)
         {
-            var questions = _repository.GetAll().Where(x => x.Id == testId).Include(x => x.TestQuestions);
-            var questionList = new List<string>();
-            
-            foreach (var item in questions)
-            {
-                foreach (var question in item.TestQuestions)
-                {
-                    questionList.Add(question.Question);
-                }
-            }
-            
-            return questionList;
-        }  
+            return await _userTestService.SendTestQuestions(testId);
+        }
         
         public async Task<ReadUserTestDto> CheckUserAnswers(ReceiveAnswersDto answers, int testId)
         {
