@@ -1,4 +1,5 @@
-﻿using BLL.DTOs.TestServiceDTOs;
+﻿using BLL.DTOs.EditTestDTOs;
+using BLL.DTOs.TestServiceDTOs;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,11 @@ namespace KnowledgeTest.Controllers
     public class TestController : ControllerBase
     {
         private readonly ITestService _testService;
-        public TestController(ITestService testService)
+        private readonly IEditTestService _editTestService;
+        public TestController(ITestService testService, IEditTestService editTestService)
         {
             _testService = testService;
+            _editTestService = editTestService;
         }
 
         [AllowAnonymous]
@@ -22,6 +25,13 @@ namespace KnowledgeTest.Controllers
         public async Task<IActionResult> FindTestAsync(string testName)
         {
             return Ok(await _testService.FindTestAsync(testName));
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAllTests()
+        {
+            return Ok(await _testService.GetAllTests());
         }
 
         [HttpGet("starttest/{id}")]
@@ -34,6 +44,18 @@ namespace KnowledgeTest.Controllers
         public async Task<IActionResult> FinishTest(ReceiveAnswersDto answersDtos, int id)
         {
             return Ok(await _testService.CheckUserAnswers(answersDtos, id));
+        }
+
+        [HttpPost("addtest")]
+        public async Task<IActionResult> AddNewTest(CreateNewTestDto newTest)
+        {
+            return Ok(await _editTestService.AddNewTest(newTest));
+        }
+
+        [HttpPost("addquestion/{id}")]
+        public async Task<IActionResult> AddQuestionToTest(CreateQuestionDto createQuestion, int id)
+        {
+            return Ok(await _editTestService.AddNewQuestion(createQuestion, id));
         }
     }
 }

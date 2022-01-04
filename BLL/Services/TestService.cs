@@ -23,7 +23,13 @@ namespace BLL.Services
             _repository = repository;
             _userTestService = userTestService;
         }
-        
+
+        public async Task<IEnumerable<ReadTestDto>> GetAllTests()
+        {
+            var result = await _repository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ReadTestDto>>(result);
+        }
+
         public async Task<IEnumerable<ReadTestDto>> FindTestAsync(string testToFind)
         {
             if (testToFind is null || testToFind.Length == 0)
