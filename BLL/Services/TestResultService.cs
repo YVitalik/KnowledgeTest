@@ -24,9 +24,12 @@ namespace BLL.Services
             _getUserInfo = getUserInfo;
         }
 
-        public Task<IEnumerable<ReadDetailedResults>> ShowDetailedResults()
+        public async Task<IEnumerable<ReadDetailedResults>> ShowDetailedResults(int id)
         {
-            throw new System.NotImplementedException();
+            var testsResults = await _userTestRepository.GetTestsResultsWithDetails();
+            var testsResultsOfUser = testsResults.Where(x => x.UserId == _getUserInfo.GetCurrentUserId()).Select(x => x.TestDetail)
+                                                                                                         .Where(x => x.UserTestId == id);
+            return _mapper.Map<IEnumerable<ReadDetailedResults>>(testsResultsOfUser);
         }
 
         public async Task<IEnumerable<ReadUserTestDto>> ShowUserPassedTests()

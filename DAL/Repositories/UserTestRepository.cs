@@ -39,6 +39,11 @@ namespace DAL.Repositories
             return await _context.UserTests.FindAsync(id);
         }
 
+        public async Task<IEnumerable<UserTest>> GetTestsResultsWithDetails()
+        {
+            return await _context.UserTests.Include(x => x.TestDetail).ToListAsync();
+        }
+
         public async Task UpdateAsync(UserTest userTest)
         {
             var item = await _context.UserTests.FindAsync(userTest.Id);

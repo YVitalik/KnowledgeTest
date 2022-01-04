@@ -15,6 +15,7 @@ namespace BLL
         {
             CreateMap<Test, ReadTestDto>();
             CreateMap<UserTest, ReadUserTestDto>();
+            CreateMap<TestDetail, ReadDetailedResults>();
         }
     }
 }

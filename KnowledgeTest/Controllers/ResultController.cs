@@ -22,10 +22,10 @@ namespace KnowledgeTest.Controllers
             return Ok(await _testResultService.ShowUserPassedTests());
         }
 
-        [HttpGet("showdetails")]
-        public async Task<IActionResult> ShowDetailedResults()
+        [HttpGet("showdetails/{id}")]
+        public async Task<IActionResult> ShowDetailedResults(int id)
         {
-            return Ok();
+            return Ok(await _testResultService.ShowDetailedResults(id));
         }
     }
 }

@@ -9,6 +9,6 @@ namespace DAL.Interfaces
 {
     public interface IUserTestRepository : ICrud<UserTest>
     {
-        
+        Task<IEnumerable<UserTest>> GetTestsResultsWithDetails();
     }
 }

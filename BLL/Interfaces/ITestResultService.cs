@@ -7,6 +7,6 @@ namespace BLL.Interfaces
     public interface ITestResultService
     {
         Task<IEnumerable<ReadUserTestDto>> ShowUserPassedTests();
-        Task<IEnumerable<ReadDetailedResults>> ShowDetailedResults();
+        Task<IEnumerable<ReadDetailedResults>> ShowDetailedResults(int testId);
     }
 }
