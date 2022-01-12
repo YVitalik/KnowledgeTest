@@ -1,4 +1,5 @@
 ﻿using Administration.Interfaces;
+using BLL.CustomExceptions;
 using BLL.DTOs.AdministrationDTOs;
 using BLL.Helpers.JwtHelper;
 using Microsoft.AspNetCore.Mvc;
@@ -35,12 +36,10 @@ namespace KnowledgeTest.Controllers
         public async Task<IActionResult> Login(LoginDto model)
         {
             var user = await _userService.Login(model);
-
             if (user is null) return BadRequest();
-
             var roles = await _userService.GetRoles(user);
-
-            return Ok(JwtHelper.GenerateJwt(user, roles, _jwtSettings));
+            var token = JwtHelper.GenerateJwt(user, roles, _jwtSettings);
+            return Ok(new { Token = token });
         }
 
         [HttpPost("createRole")]

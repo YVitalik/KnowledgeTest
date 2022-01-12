@@ -23,7 +23,9 @@ namespace BLL.Services
 
         public async Task<CreateQuestionDto> AddNewQuestion(CreateQuestionDto newQuestion, int testId)
         {
-            var question = new TestQuestion { Question = newQuestion.Question, Answear = newQuestion.Answear, TestId = testId };
+            var test = await _testRepository.GetByIdAsync(testId);
+
+            var question = new TestQuestion { Question = newQuestion.Question, Answear = newQuestion.Answear, Test = test, TestId = test.Id };
             await _testQuestionRepository.AddAsync(question);
 
             return newQuestion;
@@ -48,6 +50,12 @@ namespace BLL.Services
             await _testRepository.AddAsync(test);
 
             return newTest;
+        }
+
+        public async Task<int> DeleteTest(int testId)
+        {
+            await _testRepository.DeleteByIdAsync(testId);
+            return testId;
         }
     }
 }

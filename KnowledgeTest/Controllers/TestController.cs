@@ -1,6 +1,7 @@
 ﻿using BLL.DTOs.EditTestDTOs;
 using BLL.DTOs.TestServiceDTOs;
 using BLL.Interfaces;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -56,6 +57,12 @@ namespace KnowledgeTest.Controllers
         public async Task<IActionResult> AddQuestionToTest(CreateQuestionDto createQuestion, int id)
         {
             return Ok(await _editTestService.AddNewQuestion(createQuestion, id));
+        }
+
+        [HttpPost("deletetest/{id}")]
+        public async Task<IActionResult> DeleteTest(int id)
+        {
+            return Ok(await _editTestService.DeleteTest(id));
         }
     }
 }

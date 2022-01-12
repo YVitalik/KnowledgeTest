@@ -9,6 +9,7 @@ using BLL.Services;
 using DAL;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,16 @@ namespace KnowledgeTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITestDetailRepository, TestDetailRepository>();
@@ -64,6 +75,7 @@ namespace KnowledgeTest
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            
             services
                 .AddAuthorization()
                 .AddAuthentication(options =>
@@ -93,7 +105,11 @@ namespace KnowledgeTest
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseHttpsRedirection();
+
+            app.UseCors("EnableCors");
 
             app.UseRouting();
 
