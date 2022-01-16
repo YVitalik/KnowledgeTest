@@ -9,6 +9,7 @@ namespace DAL.Models
     public class UserTest
     {
         public int Id { get; set; }
+        public string TestName { get; set; }
         public bool Passed { get; set; }
         public double RightAnswerPercents { get; set; }
         public string UserId { get; set; }

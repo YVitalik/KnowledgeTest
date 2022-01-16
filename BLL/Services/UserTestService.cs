@@ -14,11 +14,13 @@ namespace BLL.Services
         private readonly ITestQuestionRepository _testQuestionRepository;
         private readonly ISaveUserTestService _saveUserTestService;
         private readonly IGetUserInfo _getUserInfo;
-        public UserTestService(ITestQuestionRepository testQuestionRepository, ISaveUserTestService saveUserTestService, IGetUserInfo getUserInfo)
+        private readonly ITestRepository _testRepository;
+        public UserTestService(ITestQuestionRepository testQuestionRepository, ISaveUserTestService saveUserTestService, IGetUserInfo getUserInfo, ITestRepository testRepository)
         {
             _saveUserTestService = saveUserTestService;
             _testQuestionRepository = testQuestionRepository;
             _getUserInfo = getUserInfo;
+            _testRepository = testRepository;
         }
 
         public async Task<List<string>> SendTestQuestions(int testId)
@@ -29,9 +31,10 @@ namespace BLL.Services
             return questions;
         }
 
-        public async Task<ReadUserTestDto> CheckUserTest(ReceiveAnswersDto userAnswers, int testId)
+        public async Task<ReadUserTestDto> CheckUserTest(List<ReceiveAnswersDto> userAnswers, int testId)
         {
             var allAnswears = await _testQuestionRepository.GetAllAsync();
+            var testName = await _testRepository.GetByIdAsync(testId);
             var testAnswears = allAnswears.Where(x => x.TestId == testId).Select(x => x.Answear).ToList();
             var userAnswearsWithoutSpaces = RemoveWhiteSpaces(userAnswers);
 
@@ -51,11 +54,17 @@ namespace BLL.Services
             double rightAnswersPercents = CountPercents(testAnswears, rightAnswears);
             bool passed = rightAnswersPercents > 80 ? true : false;
 
-            var userTestResult = new UserTest { RightAnswerPercents = rightAnswersPercents, Passed = passed, UserId = _getUserInfo.GetCurrentUserId() };
+            var userTestResult = new UserTest
+            {
+                RightAnswerPercents = rightAnswersPercents,
+                Passed = passed,
+                UserId = _getUserInfo.GetCurrentUserId(),
+                TestName = testName.TestName
+            };
             
             await _saveUserTestService.AddTestResult(userTestResult, rightAnswears);
 
-            return new ReadUserTestDto { Passed = passed, RightAnswerPercents = rightAnswersPercents };
+            return new ReadUserTestDto { Passed = passed, RightAnswerPercents = rightAnswersPercents, TestName = testName.TestName };
         }
 
         private double CountPercents(List<string> allAnswears, int rightAnswears)
@@ -63,13 +72,13 @@ namespace BLL.Services
             return (100 * rightAnswears) / allAnswears.Count;
         }
 
-        private List<string> RemoveWhiteSpaces(ReceiveAnswersDto answersDto)
+        private List<string> RemoveWhiteSpaces(List<ReceiveAnswersDto> answersDto)
         {
             var result = new List<string>();
             
-            foreach (var answear in answersDto.Answears)
+            foreach (var answear in answersDto)
             {
-                result.Add(String.Concat(answear.Where(c => !Char.IsWhiteSpace(c))));
+                result.Add(String.Concat(answear.AnswearValue.Where(c => !Char.IsWhiteSpace(c))));
             }
 
             return result;

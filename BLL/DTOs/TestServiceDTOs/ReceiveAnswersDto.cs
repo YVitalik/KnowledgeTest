@@ -8,6 +8,7 @@ namespace BLL.DTOs.TestServiceDTOs
 {
     public class ReceiveAnswersDto
     {
-        public string[] Answears { get; set; }
+        public string AnswearName { get; set; }
+        public string AnswearValue { get; set; }
     }
 }

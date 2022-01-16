@@ -42,7 +42,7 @@ namespace DAL.Repositories
         public async Task UpdateAsync(Test test)
         {
             var item = await _context.Tests.FindAsync(test.Id);
-            item.TestQuestions = test.TestQuestions;
+            item.TestName = test.TestName;
             item.TimeInMin = test.TimeInMin;
             await _context.SaveChangesAsync();
         }

@@ -10,5 +10,6 @@ namespace BLL.Interfaces
         Task<CreateQuestionDto> AddNewQuestion(CreateQuestionDto newQuestion, int testId);
         Task<CreateNewTestDto> AddNewTest(CreateNewTestDto newTest);
         Task<int> DeleteTest(int testId);
+        Task<UpdateTestDto> UpdateTestData(int testId, UpdateTestDto update);
     }
 }

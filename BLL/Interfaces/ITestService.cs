@@ -12,7 +12,7 @@ namespace BLL.Interfaces
     {
         Task<IEnumerable<ReadTestDto>> FindTestAsync(string testToFind);
         Task<List<string>> SendTestQuestions(int testId);
-        Task<ReadUserTestDto> CheckUserAnswers(ReceiveAnswersDto answers, int testId);
+        Task<ReadUserTestDto> CheckUserAnswers(List<ReceiveAnswersDto> answers, int testId);
         Task<IEnumerable<ReadTestDto>> GetAllTests();
     }
 }

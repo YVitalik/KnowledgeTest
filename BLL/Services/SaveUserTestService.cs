@@ -22,7 +22,7 @@ namespace BLL.Services
         
         public async Task<ReadUserTestDto> AddTestResult(UserTest userTest, int rightAnswears)
         {
-            var testDetails = new TestDetail { PassTime = DateTime.Now, RightAnswears = rightAnswears, UserTest = userTest };
+            var testDetails = new TestDetail { PassTime = DateTime.UtcNow, RightAnswears = rightAnswears, UserTest = userTest };
 
             await _userTestRepository.AddAsync(userTest);
             await _testDetailRepository.AddAsync(testDetails);

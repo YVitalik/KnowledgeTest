@@ -37,7 +37,15 @@ namespace KnowledgeTest
         {
             services.AddControllers();
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITestDetailRepository, TestDetailRepository>();
@@ -67,7 +75,7 @@ namespace KnowledgeTest
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-            
+
             services
                 .AddAuthorization()
                 .AddAuthentication(options =>
@@ -97,10 +105,9 @@ namespace KnowledgeTest
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(options =>
-                        options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
             app.UseHttpsRedirection();
+
+            app.UseCors("EnableCors");
 
             app.UseRouting();
 
@@ -114,3 +121,4 @@ namespace KnowledgeTest
         }
     }
 }
+

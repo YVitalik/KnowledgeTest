@@ -57,5 +57,12 @@ namespace BLL.Services
             await _testRepository.DeleteByIdAsync(testId);
             return testId;
         }
+
+        public async Task<UpdateTestDto> UpdateTestData(int testId, UpdateTestDto update)
+        {
+            var test = new Test { Id = testId, TestName = update.TestName, TimeInMin = update.TimeInMin };
+            await _testRepository.UpdateAsync(test);
+            return update;
+        }
     }
 }

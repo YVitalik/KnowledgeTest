@@ -10,6 +10,6 @@ namespace BLL.Interfaces
     public interface IUserTestService
     {
         Task<List<string>> SendTestQuestions(int testId);
-        Task<ReadUserTestDto> CheckUserTest(ReceiveAnswersDto answers, int testId);
+        Task<ReadUserTestDto> CheckUserTest(List<ReceiveAnswersDto> answers, int testId);
     }
 }

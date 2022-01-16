@@ -57,7 +57,7 @@ namespace BLL.Services
             return await _userTestService.SendTestQuestions(testId);
         }
         
-        public async Task<ReadUserTestDto> CheckUserAnswers(ReceiveAnswersDto answers, int testId)
+        public async Task<ReadUserTestDto> CheckUserAnswers(List<ReceiveAnswersDto> answers, int testId)
         {
             return await _userTestService.CheckUserTest(answers, testId);
         }
