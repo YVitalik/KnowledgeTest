@@ -37,15 +37,7 @@ namespace KnowledgeTest
         {
             services.AddControllers();
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("EnableCors", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
-                });
-            });
+            services.AddCors();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITestDetailRepository, TestDetailRepository>();
@@ -105,11 +97,10 @@ namespace KnowledgeTest
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options =>
+                        options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
-
-            app.UseCors("EnableCors");
 
             app.UseRouting();
 
