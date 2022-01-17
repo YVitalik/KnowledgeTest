@@ -13,10 +13,16 @@ namespace BLL.Services
 {
     public class EditTestService : IEditTestService
     {
+        private readonly IMapper _mapper;
         private readonly ITestRepository _testRepository;
         private readonly ITestQuestionRepository _testQuestionRepository;
-        public EditTestService(ITestRepository testRepository, ITestQuestionRepository testQuestionRepository)
+        public EditTestService(ITestRepository testRepository, ITestQuestionRepository testQuestionRepository, IMapper mapper)
         {
+            var configuration = new MapperConfiguration(cfg =>
+                cfg.AddProfile<AutomapperProfile>()
+            );
+            mapper = new Mapper(configuration);
+            _mapper = mapper;
             _testRepository = testRepository;
             _testQuestionRepository = testQuestionRepository;
         }
@@ -56,6 +62,20 @@ namespace BLL.Services
         {
             await _testRepository.DeleteByIdAsync(testId);
             return testId;
+        }
+
+        public async Task<IEnumerable<UpdateQuestionDto>> GetTestQuestionsAnswears(int testId)
+        {
+            var questionsAnswears = await _testQuestionRepository.GetAllAsync();
+            var result = questionsAnswears.Where(x => x.TestId == testId);
+            return _mapper.Map<IEnumerable<UpdateQuestionDto>>(result);
+        }
+
+        public async Task<UpdateQuestionDto> UpdateQuestion(UpdateQuestionDto updateQuestion)
+        {
+            var questionToUpdate = new TestQuestion { Id = updateQuestion.Id, Question = updateQuestion.Question, Answear = updateQuestion.Answear };
+            await _testQuestionRepository.UpdateAsync(questionToUpdate);
+            return updateQuestion;
         }
 
         public async Task<UpdateTestDto> UpdateTestData(int testId, UpdateTestDto update)

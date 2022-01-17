@@ -59,6 +59,7 @@ namespace KnowledgeTest
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ITestResultService, TestResultService>();
             services.AddTransient<IEditTestService, EditTestService>();
+            services.AddTransient<IUserManagementService, UserManagementService>();
 
             services.AddAutoMapper(typeof(Startup));
 

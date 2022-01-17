@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.DTOs.EditTestDTOs;
 using BLL.DTOs.TestServiceDTOs;
 using DAL.Models;
 using System;
@@ -16,6 +17,7 @@ namespace BLL
             CreateMap<Test, ReadTestDto>();
             CreateMap<UserTest, ReadUserTestDto>();
             CreateMap<TestDetail, ReadDetailedResults>();
+            CreateMap<TestQuestion, UpdateQuestionDto>();
         }
     }
 }

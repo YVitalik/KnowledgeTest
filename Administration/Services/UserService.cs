@@ -15,42 +15,11 @@ namespace Administration.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
         public UserService(UserManager<IdentityUser> userManager,
                            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-        }
-
-        public async Task AssignUserToRoles(AssignUserToRolesDto assignUserToRoles)
-        {
-            var user = _userManager.Users.FirstOrDefault(u => u.UserName == assignUserToRoles.Username || u.Email == assignUserToRoles.Username);
-            var roles = _roleManager.Roles.ToList().Where(r => assignUserToRoles.Roles.Contains(r.Name, StringComparer.OrdinalIgnoreCase))
-                .Select(r => r.NormalizedName).ToList();
-
-            var result = await _userManager.AddToRolesAsync(user, roles);
-
-            if (!result.Succeeded)
-            {
-                throw new System.Exception(string.Join(';', result.Errors.Select(x => x.Description)));
-            }
-        }
-
-        public async Task CreateRole(string roleName)
-        {
-            if (roleName is null) throw new ArgumentNullException("Rolename ca not be null");
-            var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
-        }
-
-        public async Task<IEnumerable<string>> GetRoles(IdentityUser user)
-        {
-            return (await _userManager.GetRolesAsync(user)).ToList();
-        }
-
-        public async Task<IEnumerable<IdentityRole>> GetRoles()
-        {
-            return await _roleManager.Roles.ToListAsync();
         }
 
         public async Task<IdentityUser> Login(LoginDto login)

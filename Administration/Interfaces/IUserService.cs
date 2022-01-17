@@ -9,9 +9,5 @@ namespace Administration.Interfaces
     {
         Task Register(RegisterDto user);
         Task<IdentityUser> Login(LoginDto login);
-        Task AssignUserToRoles(AssignUserToRolesDto assignUserToRoles);
-        Task CreateRole(string roleName);
-        Task<IEnumerable<string>> GetRoles(IdentityUser user);
-        Task<IEnumerable<IdentityRole>> GetRoles();
     }
 }

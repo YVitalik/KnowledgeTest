@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace KnowledgeTest.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "teacher")]
+    //[Authorize(Roles = "teacher")]
     [Route("knowledge/teacher")]
     public class TeacherController : ControllerBase
     {
@@ -39,6 +39,18 @@ namespace KnowledgeTest.Controllers
         public async Task<IActionResult> UpdateTest(int id, UpdateTestDto updateTest)
         {
             return Ok(await _editTestService.UpdateTestData(id, updateTest));
+        }
+
+        [HttpGet("testquestions/{id}")]
+        public async Task<IActionResult> GetTestQuestions(int id)
+        {
+            return Ok(await _editTestService.GetTestQuestionsAnswears(id));
+        }
+
+        [HttpPost("editquestion")]
+        public async Task<IActionResult> EditQuestion(UpdateQuestionDto updateQuestion)
+        {
+            return Ok(await _editTestService.UpdateQuestion(updateQuestion));
         }
     }
 }
