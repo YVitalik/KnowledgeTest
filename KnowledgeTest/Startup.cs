@@ -2,6 +2,7 @@ using Administration;
 using Administration.Interfaces;
 using Administration.Services;
 using AutoMapper;
+using BLL;
 using BLL.Helpers.JwtHelper;
 using BLL.Helpers.UserHelper;
 using BLL.Interfaces;
@@ -61,7 +62,7 @@ namespace KnowledgeTest
             services.AddTransient<IEditTestService, EditTestService>();
             services.AddTransient<IUserManagementService, UserManagementService>();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(AutomapperProfile));
 
             services.AddDbContext<AdministrationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AdministrationDB")));

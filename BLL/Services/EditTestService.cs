@@ -19,10 +19,6 @@ namespace BLL.Services
         private readonly ITestQuestionRepository _testQuestionRepository;
         public EditTestService(ITestRepository testRepository, ITestQuestionRepository testQuestionRepository, IMapper mapper)
         {
-            var configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<AutomapperProfile>()
-            );
-            mapper = new Mapper(configuration);
             _mapper = mapper;
             _testRepository = testRepository;
             _testQuestionRepository = testQuestionRepository;

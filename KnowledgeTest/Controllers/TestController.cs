@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KnowledgeTest.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "teacher, student")]
     [ApiController]
     [Route("knowledge/test")]
     public class TestController : ControllerBase

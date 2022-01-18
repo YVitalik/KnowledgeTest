@@ -17,10 +17,6 @@ namespace BLL.Services
         private readonly IGetUserInfo _getUserInfo;
         public TestResultService(IUserTestRepository userTestRepository, IMapper mapper, IGetUserInfo getUserInfo)
         {
-            var configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<AutomapperProfile>()
-            );
-            mapper = new Mapper(configuration);
             _mapper = mapper;
             _userTestRepository = userTestRepository;
             _getUserInfo = getUserInfo;

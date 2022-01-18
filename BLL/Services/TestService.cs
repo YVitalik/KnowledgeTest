@@ -16,10 +16,6 @@ namespace BLL.Services
         private readonly IUserTestService _userTestService;
         public TestService(ITestRepository repository, IMapper mapper, IUserTestService userTestService)
         {
-            var configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<AutomapperProfile>()
-            );
-            mapper = new Mapper(configuration);
             _mapper = mapper;
             _repository = repository;
             _userTestService = userTestService;

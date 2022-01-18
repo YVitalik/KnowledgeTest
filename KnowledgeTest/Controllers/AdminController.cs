@@ -10,7 +10,7 @@ namespace KnowledgeTest.Controllers
 {
     [ApiController]
     [Route("knowledge/admin")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         private readonly IUserManagementService _userManagementService;
