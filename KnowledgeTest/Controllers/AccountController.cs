@@ -49,7 +49,7 @@ namespace KnowledgeTest.Controllers
                 
                 if (user is null) return BadRequest("Password is incorrect");
                 
-                var roles = await _userManagementService.GetRoles(user);
+                var roles = await _userManagementService.GetRoles(user.Id);
                 return Ok(new { Token = JwtHelper.GenerateJwt(user, roles, _jwtSettings) });
             }
             catch (UserDoesntExistsException ex)
