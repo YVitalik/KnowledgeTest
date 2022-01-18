@@ -53,7 +53,7 @@ namespace KnowledgeTest.Controllers
             try
             {
                 await _userManagementService.CreateRole(model.RoleName);
-                return Ok(model.RoleName);
+                return Ok();
             }
             catch (ArgumentException ex)
             {

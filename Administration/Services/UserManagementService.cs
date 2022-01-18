@@ -110,7 +110,7 @@ namespace Administration.Services
         public async Task CreateRole(string roleName)
         {
             var check = await _roleManager.RoleExistsAsync(roleName);
-            if (check)
+            if (check == true)
             {
                 throw new ArgumentException("Role name is already in use, please choose another!");
             }

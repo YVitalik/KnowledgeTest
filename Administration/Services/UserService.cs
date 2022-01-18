@@ -46,6 +46,7 @@ namespace Administration.Services
         /// <summary>
         /// Fucntion accept RegisterDto which has 3 parameters all of them are required,
         /// if username and email are not used in other accounts, the new account is created
+        /// set default role to student
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -61,7 +62,10 @@ namespace Administration.Services
             var identityUser = new IdentityUser { UserName = user.Username, Email = user.Email };
             var result = await _userManager.CreateAsync(identityUser, user.Password);
 
-            await _userManager.AddToRoleAsync(identityUser, "student");
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(identityUser, "student");
+            }
         }
     }
 }
