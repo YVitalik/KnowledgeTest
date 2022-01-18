@@ -1,6 +1,8 @@
-﻿using BLL.Interfaces;
+﻿using BLL.CustomExceptions;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KnowledgeTest.Controllers
@@ -19,13 +21,27 @@ namespace KnowledgeTest.Controllers
         [HttpGet("testsresults")]
         public async Task<IActionResult> ShowTestsResults()
         {
-            return Ok(await _testResultService.ShowUserPassedTests());
+            try
+            {
+                return Ok(await _testResultService.ShowUserPassedTests());
+            }
+            catch (NoPassedTestsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpGet("showdetails/{id}")]
         public async Task<IActionResult> ShowDetailedResults(int id)
         {
-            return Ok(await _testResultService.ShowDetailedResults(id));
+            try
+            {
+                return Ok(await _testResultService.ShowDetailedResults(id));
+            }
+            catch (NoPassedTestsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
     }
 }

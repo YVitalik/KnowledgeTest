@@ -8,6 +8,7 @@ using DAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace BLL.Services
 {
@@ -31,6 +32,11 @@ namespace BLL.Services
         {
             var test = await _testRepository.GetByIdAsync(testId);
 
+            if (test is null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var question = new TestQuestion { Question = newQuestion.Question, Answear = newQuestion.Answear, Test = test, TestId = test.Id };
             await _testQuestionRepository.AddAsync(question);
 
@@ -39,17 +45,12 @@ namespace BLL.Services
 
         public async Task<CreateNewTestDto> AddNewTest(CreateNewTestDto newTest)
         {
-            var check = await _testRepository.GetAllAsync();
-            var checkName = check.FirstOrDefault(x => x.TestName == newTest.TestName);
-
-            if (newTest.TestName is null || newTest.TimeInMin == 0)
-            {
-                throw new AddNewTestErrorException("Testname is empty, or time in min is less then zero");
-            }
+            var allTests = await _testRepository.GetAllAsync();
+            var checkName = allTests.FirstOrDefault(x => x.TestName == newTest.TestName);
 
             if (checkName != null)
             {
-                throw new TestAlreadyExistsException("TestName already exists, please choose other");
+                throw new TestWithNameExistsException("Test name with such name already exist, please choose other name!");
             }
 
             var test = new Test { TestName = newTest.TestName, TimeInMin = newTest.TimeInMin };
@@ -60,6 +61,13 @@ namespace BLL.Services
 
         public async Task<int> DeleteTest(int testId)
         {
+            var test = await _testRepository.GetByIdAsync(testId);
+
+            if (test is null)
+            {
+                throw new TestDoesNotExistsException("Test with such id does not exist!");
+            }
+
             await _testRepository.DeleteByIdAsync(testId);
             return testId;
         }

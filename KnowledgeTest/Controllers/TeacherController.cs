@@ -1,7 +1,9 @@
-﻿using BLL.DTOs.EditTestDTOs;
+﻿using BLL.CustomExceptions;
+using BLL.DTOs.EditTestDTOs;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KnowledgeTest.Controllers
@@ -20,19 +22,41 @@ namespace KnowledgeTest.Controllers
         [HttpPost("addtest")]
         public async Task<IActionResult> AddNewTest(CreateNewTestDto newTest)
         {
-            return Ok(await _editTestService.AddNewTest(newTest));
+            try
+            {
+                if (newTest.TimeInMin <= 0) return BadRequest("Time for passing must be >= 1");
+                return Ok(await _editTestService.AddNewTest(newTest));
+            }
+            catch (TestWithNameExistsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpPost("addquestion/{id}")]
         public async Task<IActionResult> AddQuestionToTest(CreateQuestionDto createQuestion, int id)
         {
-            return Ok(await _editTestService.AddNewQuestion(createQuestion, id));
+            try
+            {
+                return Ok(await _editTestService.AddNewQuestion(createQuestion, id));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpPost("deletetest/{id}")]
         public async Task<IActionResult> DeleteTest(int id)
         {
-            return Ok(await _editTestService.DeleteTest(id));
+            try
+            {
+                return Ok(await _editTestService.DeleteTest(id));
+            }
+            catch (TestDoesNotExistsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpPost("updatetest/{id}")]

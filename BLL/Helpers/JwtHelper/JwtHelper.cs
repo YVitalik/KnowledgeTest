@@ -9,6 +9,9 @@ using System.Text;
 
 namespace BLL.Helpers.JwtHelper
 {
+    /// <summary>
+    /// Static class that incapsulates logic for generating JWT token
+    /// </summary>
     public static class JwtHelper
     {
         public static string GenerateJwt(IdentityUser user, IEnumerable<string> roles, JwtSettings jwtSettings)

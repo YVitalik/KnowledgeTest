@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace BLL.Helpers.UserHelper
 {
+    /// <summary>
+    /// Class that helps you to get needed user info id, name etc.
+    /// </summary>
     public class GetUserInfo : IGetUserInfo
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

@@ -20,6 +20,13 @@ namespace BLL.Services
             _testDetailRepository = testDetailRepository;
         }
         
+        /// <summary>
+        /// Receive UserTest object to save it in userTestRepository, and also receive right answears (int), 
+        /// which is needed to create TestDetail object and then save it in testDetailRepository
+        /// </summary>
+        /// <param name="userTest"></param>
+        /// <param name="rightAnswears"></param>
+        /// <returns></returns>
         public async Task<ReadUserTestDto> AddTestResult(UserTest userTest, int rightAnswears)
         {
             var testDetails = new TestDetail { PassTime = DateTime.UtcNow, RightAnswears = rightAnswears, UserTest = userTest };
