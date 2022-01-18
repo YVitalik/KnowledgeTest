@@ -57,12 +57,11 @@ namespace Administration.Services
             {
                 throw new UsernameAlreadyExistsException("Username is already in use, please choose other!");
             }
-            
-            var result = await _userManager.CreateAsync(new IdentityUser
-            {
-                Email = user.Email,
-                UserName = user.Username
-            }, user.Password);
+
+            var identityUser = new IdentityUser { UserName = user.Username, Email = user.Email };
+            var result = await _userManager.CreateAsync(identityUser, user.Password);
+
+            await _userManager.AddToRoleAsync(identityUser, "student");
         }
     }
 }

@@ -22,10 +22,6 @@ namespace Administration.Services
                                      RoleManager<IdentityRole> roleManager,
                                      IMapper mapper)
         {
-            var configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<AutomapperProfile>()
-            );
-            mapper = new Mapper(configuration);
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
