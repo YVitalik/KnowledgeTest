@@ -62,19 +62,45 @@ namespace KnowledgeTest.Controllers
         [HttpPost("updatetest/{id}")]
         public async Task<IActionResult> UpdateTest(int id, UpdateTestDto updateTest)
         {
-            return Ok(await _editTestService.UpdateTestData(id, updateTest));
+            try
+            {
+                if (updateTest.TimeInMin <= 0) return BadRequest("Time for passing should be >= 1");
+                return Ok(await _editTestService.UpdateTestData(id, updateTest));
+            }
+            catch (TestDoesNotExistsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpGet("testquestions/{id}")]
         public async Task<IActionResult> GetTestQuestions(int id)
         {
-            return Ok(await _editTestService.GetTestQuestionsAnswears(id));
+            try
+            {
+                return Ok(await _editTestService.GetTestQuestionsAnswears(id));
+            }
+            catch (TestDoesNotExistsException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (NoQuestionsInTestException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpPost("editquestion")]
         public async Task<IActionResult> EditQuestion(UpdateQuestionDto updateQuestion)
         {
-            return Ok(await _editTestService.UpdateQuestion(updateQuestion));
+            try
+            {
+                return Ok(await _editTestService.UpdateQuestion(updateQuestion));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
     }
 }
