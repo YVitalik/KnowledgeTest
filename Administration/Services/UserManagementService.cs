@@ -1,4 +1,6 @@
 ﻿using Administration.Interfaces;
+using AutoMapper;
+using BLL;
 using BLL.DTOs.AdministrationDTOs;
 using BLL.DTOs.UserManagementDTOs;
 using Microsoft.AspNetCore.Identity;
@@ -15,9 +17,16 @@ namespace Administration.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMapper _mapper;
         public UserManagementService(UserManager<IdentityUser> userManager,
-                           RoleManager<IdentityRole> roleManager)
+                                     RoleManager<IdentityRole> roleManager,
+                                     IMapper mapper)
         {
+            var configuration = new MapperConfiguration(cfg =>
+                cfg.AddProfile<AutomapperProfile>()
+            );
+            mapper = new Mapper(configuration);
+            _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -26,7 +35,10 @@ namespace Administration.Services
         {
             var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
             await _userManager.DeleteAsync(user);
-            return userId;
+
+            string deletedUserId = userId;
+
+            return deletedUserId;
         }
 
         public async Task<UpdateUserDto> UpdateUserCredentials(UpdateUserDto updateUser)
@@ -71,9 +83,16 @@ namespace Administration.Services
             return (await _userManager.GetRolesAsync(user)).ToList();
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetRoles()
+        public async Task<IEnumerable<ReadRolesDto>> GetRoles()
         {
-            return await _roleManager.Roles.ToListAsync();
+            var roles =  await _roleManager.Roles.ToListAsync();
+            return _mapper.Map<IEnumerable<ReadRolesDto>>(roles);
+        }
+
+        public async Task<IEnumerable<ReadUserInfoDto>> ShowAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return _mapper.Map<IEnumerable<ReadUserInfoDto>>(users);
         }
     }
 }

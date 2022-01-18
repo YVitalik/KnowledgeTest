@@ -1,4 +1,5 @@
-﻿using BLL.DTOs.EditTestDTOs;
+﻿using BLL.CustomExceptions;
+using BLL.DTOs.EditTestDTOs;
 using BLL.DTOs.TestServiceDTOs;
 using BLL.Interfaces;
 using DAL.Interfaces;
@@ -23,20 +24,43 @@ namespace KnowledgeTest.Controllers
         [HttpGet("find/{testName}")]
         public async Task<IActionResult> FindTestAsync(string testName)
         {
-            return Ok(await _testService.FindTestAsync(testName));
+            try
+            {
+                if (testName is null) return BadRequest("This field cannot be empty!");
+
+                return Ok(await _testService.FindTestAsync(testName));
+            }
+            catch (NoTestsFoundException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllTests()
         {
-            return Ok(await _testService.GetAllTests());
+            try
+            {
+                return Ok(await _testService.GetAllTests());
+            }
+            catch (TestRepositoryIsEmptyException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpGet("starttest/{id}")]
         public async Task<IActionResult> StartTest(int id)
         {
-            return Ok(await _testService.SendTestQuestions(id));
+            try
+            {
+                return Ok(await _testService.SendTestQuestions(id));
+            }
+            catch (NoQuestionsInTestException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
 
         [HttpPost("finishtest/{id}")]

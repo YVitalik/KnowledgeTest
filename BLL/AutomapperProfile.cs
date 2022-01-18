@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
+using BLL.DTOs.AdministrationDTOs;
 using BLL.DTOs.EditTestDTOs;
 using BLL.DTOs.TestServiceDTOs;
+using BLL.DTOs.UserManagementDTOs;
 using DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace BLL
 {
@@ -18,6 +16,8 @@ namespace BLL
             CreateMap<UserTest, ReadUserTestDto>();
             CreateMap<TestDetail, ReadDetailedResults>();
             CreateMap<TestQuestion, UpdateQuestionDto>();
+            CreateMap<IdentityRole, ReadRolesDto>();
+            CreateMap<IdentityUser, ReadUserInfoDto>();
         }
     }
 }

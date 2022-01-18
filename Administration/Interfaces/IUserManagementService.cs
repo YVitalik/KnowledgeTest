@@ -16,6 +16,7 @@ namespace Administration.Interfaces
         Task AssignUserToRoles(AssignUserToRolesDto assignUserToRoles);
         Task CreateRole(string roleName);
         Task<IEnumerable<string>> GetRoles(IdentityUser user);
-        Task<IEnumerable<IdentityRole>> GetRoles();
+        Task<IEnumerable<ReadRolesDto>> GetRoles();
+        Task<IEnumerable<ReadUserInfoDto>> ShowAllUsers();
     }
 }

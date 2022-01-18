@@ -1,4 +1,5 @@
 ﻿using Administration.Interfaces;
+using BLL.DTOs.AdministrationDTOs;
 using BLL.DTOs.UserManagementDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +24,38 @@ namespace KnowledgeTest.Controllers
             return Ok(await _userManagementService.UpdateUserCredentials(updateUser));
         }
 
-        [HttpPost("deleteuser/{userId}")]
-        public async Task<IActionResult> DeleteUser(string userId)
+        [HttpPost("deleteuser/{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            return Ok(await _userManagementService.DeleteUser(userId));
+            await _userManagementService.DeleteUser(id);
+            return Ok();
+        }
+
+        [HttpPost("createrole")]
+        public async Task<IActionResult> CreateRole(CreateRoleDto model)
+        {
+            await _userManagementService.CreateRole(model.RoleName);
+            return Ok();
+        }
+
+        [HttpGet("getroles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            return Ok(await _userManagementService.GetRoles());
+        }
+
+        [HttpPost("assignusertorole")]
+        public async Task<IActionResult> AssignUserToRole(AssignUserToRolesDto model)
+        {
+            await _userManagementService.AssignUserToRoles(model);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllApplicationUsers()
+        {
+            return Ok(await _userManagementService.ShowAllUsers());
         }
     }
 }
